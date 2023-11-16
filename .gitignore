@@ -8,6 +8,7 @@
 
 # User-specific files
 .Ruserdata
+Datasets\survey_results_public.csv
 
 # Example code in package build process
 *-Ex.R
