@@ -49,3 +49,4 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 Datasets/survey_results_public.csv
+*.csv
