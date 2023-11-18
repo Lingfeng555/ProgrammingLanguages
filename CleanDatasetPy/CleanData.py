@@ -57,6 +57,8 @@ def main():
     cleaned = cleaned.drop(cleaned.index[range(71000)])
     print(len(cleaned))
     cleaned.to_csv("indexedStackOverflow.csv")
+    compressedColums = pd.DataFrame(list(dicKeys.keys()))
+    compressedColums.to_csv("compressedColumns.csv")
     keyDataFrame = pd.DataFrame(keysList)
     keyDataFrame.to_csv("stackOverflowKeySet.csv")
     return 0
