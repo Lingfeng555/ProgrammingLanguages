@@ -5,8 +5,18 @@ from collections import Counter
 import sys
 #Data______________________________________________________________________________________________________________________________
 raw = pd.read_csv("survey_results_public.csv")
-print(len(raw.columns))
+print(raw.columns)
 raw.drop(columns=[
+    'AIToolInterested in Using',
+    'AIToolCurrently Using',
+    'AIToolNot interested in Using',
+    'AINextVery different',
+    'AINextNeither different nor similar',
+    'AINextSomewhat similar',
+    'AINextVery similar',
+    'AINextSomewhat different',
+    'ResponseId',
+    'Q120',
     'OrgSize', 
     'LearnCode', 
     'LearnCodeOnline', 
@@ -28,7 +38,7 @@ dicKeys = {}
 #Functions_________________________________________________________________________________________________________________________
 def distict():
     result = []
-    for i in range(1,raw.columns.size):
+    for i in range(raw.columns.size):
         uniqueValues = list(set(Counter(raw[raw.columns[i]])))
         uniqueValues = [x for x in uniqueValues if str(x) != 'nan'] #Remove all nan values
         uniqueValues  = [x for x in uniqueValues if  isinstance(x, str)] #remove all no string values
@@ -54,7 +64,7 @@ def getIndexes(total, sublist):
 def main():
     keysList = distict()
     cleaned = replaceForKey(lis=keysList)
-    cleaned = cleaned.drop(cleaned.index[range(71000)])
+    cleaned = cleaned.drop(cleaned.index[range(69000)])
     print(len(cleaned))
     cleaned.to_csv("indexedStackOverflow.csv")
     compressedColums = pd.DataFrame(list(dicKeys.keys()))
