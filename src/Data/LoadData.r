@@ -2,7 +2,6 @@ issues <- read.csv(
     file = "Datasets/issues.csv",
     head = TRUE,
     sep = ",",
-    quote = "\"'",
     dec = ".",
     na.strings = "NA",
     fill = TRUE
