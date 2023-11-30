@@ -3,7 +3,7 @@ library(lubridate)
 library(ggplot2)
 library(RColorBrewer)
 ordered_issues <- issues[order(issues$name, issues$year, issues$quarter, issues$count),]
-dates <- ymd(paste(ordered_issues$year, "/",month(ordered_issues$quarter * 3, label = T), "/","01"))
+dates <- ymd(paste(ordered_issues$year, "/", ordered_issues$quarter * 3, label = T, "/","01", sep = ""))
 ordered_issues <- cbind(ordered_issues, dates)
 getProgressiveSumVector <- function(vector){
   result  <- c(vector[1])
@@ -34,22 +34,29 @@ plotCompareLanguage <- function(name1, name2){
   return(result)
 }
 
+getTotalIssues <- function(language){
+  l_dataframe <- getLanguageDataFrame(language)
+  return(l_dataframe[length(l_dataframe$Issues),2])
+}
 
-getAllLanguagesPlot <- function(){
+getAllLanguagesPlot <- function(n){
   result <- ggplot()
   languageNames <- unique(ordered_issues$name)
   #Filter the 20 most used languages
+  l_issues_DataFrame <- data.frame(
+    Names = languageNames,
+    Total = unlist(lapply(languageNames, getTotalIssues))
+  )
+  l_issues_DataFrame <- l_issues_DataFrame[order(-l_issues_DataFrame$Total),]
   #_________________________________
   TotalColor <- grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
   nColors <- length(languageNames)
   colorSample <- sample(TotalColor, nColors)
-  for(i in 1:length(languageNames)){
-    result <- result + getGeomLine(languageNames[i], colorSample[i])
+  for(i in 1:n){
+    result <- result + getGeomLine(l_issues_DataFrame$Names[i], colorSample[i])
   }
   return(result)
-} 
-
-
+}
 
 
 
