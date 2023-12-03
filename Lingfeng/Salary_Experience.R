@@ -10,7 +10,6 @@ getTarget <- function(){ #This is considering the exchange of currencies 1 euro 
     !is.na(stackOverFlow$YearsCodePro) &
     !is.na(stackOverFlow$LanguageHaveWorkedWith))
   return(res)
-  
 }
 
 builtBasedDataFrame <- function(){
@@ -44,9 +43,40 @@ getSalarieByExperience <- function(){
   return(result)
 }
 
+getLanguages <- function(){
+  workingLanguages <- stackOverFlow$LanguageHaveWorkedWith[getTarget()]
+  allLanguages <- unique(unlist(str_split(workingLanguages, ";")))
+  return(allLanguages)
+}
+
+getLangExpSal <- function(BaseDataFrame){
+  allLanguages <- getLanguages()
+  meanExperience <- c()
+  meanSalarie <- c()
+  for (i in allLanguages) {
+    if(i=="Bash/Shell (all shells)"){
+      i <- "Bash"
+    }else if(i=="Visual Basic (.Net)"){
+      i <- "Visual"
+    }
+    meanExperience <- rbind(meanExperience, mean(BaseDataFrame$Experience[str_detect(language_exp_salarie$Languages, i)]))
+    meanSalarie <- rbind(meanSalarie, mean(BaseDataFrame$Salaries[str_detect(language_exp_salarie$Languages, i)]))
+  }
+  
+  languageDataFrame <- data.frame(
+    Language = allLanguages,
+    MeanExp = meanExperience,
+    MeanSal = meanSalarie
+  )
+  
+  return(languageDataFrame)
+}
+
 language_exp_salarie <- builtBasedDataFrame()
 salariePerExp <- data.frame(
   Experience = unique(language_exp_salarie$Experience),
   Salarie = getSalarieByExperience()
 )
+langMean <- getLangExpSal(language_exp_salarie)
+
 ggplot() + geom_line(salariePerExp, mapping = aes(x=salariePerExp$Experience, y=salariePerExp$Salarie))
