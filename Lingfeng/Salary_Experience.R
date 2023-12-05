@@ -2,6 +2,7 @@ library(dplyr)
 library(ggplot2)
 library(stringr)
 
+#To filter data, in ordor to adjust currency exchange that can influence the real mean value because of economics efects, them It is neccessary to select only stable currencys
 getTarget <- function(){ #This is considering the exchange of currencies 1 euro = 1 dollar
   res <- (stackOverFlow$Employment == 'Employed, full-time' & 
     (  (stackOverFlow$Currency=='USD\tUnited States dollar' 
@@ -79,5 +80,6 @@ salariePerExp <- data.frame(
 )
 langMean <- getLangExpSal(language_exp_salarie)
 
-ggplot() + geom_line(salariePerExp, mapping = aes(x=salariePerExp$Experience, y=salariePerExp$Salarie)) + geom_text(data=langMean, mapping = aes(x=MeanExp, y=MeanSal, label = Language))
+plot_Salary<-ggplot() + geom_line(salariePerExp, mapping = aes(x=salariePerExp$Experience, y=salariePerExp$Salarie))
 ggplot() + geom_text(data=langMean, mapping = aes(x=MeanExp, y=MeanSal, label = Language))
+ggplot() + geom_line(salariePerExp, mapping = aes(x=salariePerExp$Experience, y=salariePerExp$Salarie)) + geom_text(data=langMean, mapping = aes(x=MeanExp, y=MeanSal, label = Language))

@@ -20,8 +20,8 @@ ui <- fluidPage(
         sidebarPanel(
             sliderInput("bins",
                         "Number of bins:",
-                        min = 2003,
-                        max = 2024,
+                        min = 0,
+                        max = 50,
                         value = 1)
         ),
 
@@ -37,15 +37,8 @@ server <- function(input, output) {
 
     output$distPlot <- renderPlot({
         # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white',
-             xlab = 'Waiting time to next eruption (in mins)',
-             main = 'Histogram of waiting times')
+        plot_Salary
     })
 }
-
 # Run the application 
 shinyApp(ui = ui, server = server)
