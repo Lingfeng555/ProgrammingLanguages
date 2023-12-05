@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from collections import Counter
 import sys
+
 #Data______________________________________________________________________________________________________________________________
 raw = pd.read_csv("survey_results_public.csv")
 print(raw.columns)
@@ -35,6 +36,7 @@ raw.drop(columns=[
     'OfficeStackSyncWantToWorkWith'],axis=1, inplace=True)
 print(len(raw.columns))
 dicKeys = {}
+
 #Functions_________________________________________________________________________________________________________________________
 def distict():
     result = []
@@ -60,6 +62,7 @@ def getIndexes(total, sublist):
         index = total.index(item)
         result.append(index)
     return result
+
 #Main______________________________________________________________________________________________________________________________
 def main():
     keysList = distict()
@@ -72,4 +75,10 @@ def main():
     keyDataFrame = pd.DataFrame(keysList)
     keyDataFrame.to_csv("stackOverflowKeySet.csv")
     return 0
+<<<<<<< HEAD
+
+if __name__ ==  "__main__":
+    main()
+=======
 main()
+>>>>>>> b4479a112b32560a913fee278f5997070e2d1b28
