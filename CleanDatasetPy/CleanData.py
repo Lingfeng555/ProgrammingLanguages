@@ -75,10 +75,6 @@ def main():
     keyDataFrame = pd.DataFrame(keysList)
     keyDataFrame.to_csv("stackOverflowKeySet.csv")
     return 0
-<<<<<<< HEAD
 
 if __name__ ==  "__main__":
     main()
-=======
-main()
->>>>>>> b4479a112b32560a913fee278f5997070e2d1b28
