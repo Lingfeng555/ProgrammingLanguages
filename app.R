@@ -11,20 +11,29 @@ library(shiny)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-  #Lingfeng___________________________________________________
-  #textOutput(outputId = "TituloSal"),
-  #plotOutput(outputId = "distPlot"),
-  #textOutput(outputId = "TituloLang"),
-  #plotOutput(outputId = "langPlot"),
-  #textOutput(outputId = "MixtSalLang"),
-  #plotOutput(outputId = "MixtPlot"),
-  #___________________________________________________________
-
+      
+  
     # Application title
     titlePanel("A brief summary of programing languages"),
+    #Lingfeng___________________________________________________
+    titlePanel("The popularity of each language based on issues on github repos"),
+    fluidPage(
+      textInput(label = "FirstLanguage", inputId = "Lang1", value = "Python"),
+      textInput(label = "SecondLanguage", inputId = "Lang2", value = "R"),
+      plotOutput(outputId = "LangCompare")
+    ),
+    
+    titlePanel("How is each language in the job market"),
+    textOutput(outputId = "TituloSal"),
+    plotOutput(outputId = "distPlot"),
+    textOutput(outputId = "TituloLang"),
+    plotOutput(outputId = "langPlot"),
+    textOutput(outputId = "MixtSalLang"),
+    plotOutput(outputId = "MixtPlot"),
+  #___________________________________________________________
 
     # Sidebar with a slider input for number of bins 
-
+    titlePanel("Popular ID for each programming language"),
         # Show a plot of the generated distribution
         mainPanel(
            #plotOutput("distPlot"),
@@ -49,20 +58,18 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-    #Lingfeng___________________________________________________
-    #output$TituloSal <- renderText("The mean salary based on the working experience on IT fields")
-    #output$distPlot <- renderPlot(plot_Salary)
-    #output$TituloLang <- renderText("This is a mean salary for each language depending on the mean salary")
-    #output$langPlot <- renderPlot(plot_Lang)
-    #output$MixtSalLang <- renderText("This is a plot where is a mixt of the previus two where the value of each language of the market can be aprecciated")
-    #output$MixtPlot <- renderPlot(plot_Mixt)
-    #___________________________________________________________
-    
+    # -------- Popularity --------
+    output$LangCompare <- renderPlot(plotCompareLanguage(input$Lang1, input$Lang2))
+  
     # -------- SALARIES --------
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        plot_Salary
-    })
+  
+    output$TituloSal <- renderText("The mean salary based on the working experience on IT fields")
+    output$distPlot <- renderPlot(plot_Salary)
+    output$TituloLang <- renderText("This is a mean salary for each language depending on the mean salary")
+    output$langPlot <- renderPlot(plot_Lang)
+    output$MixtSalLang <- renderText("This is a plot where is a mixt of the previus two where the value of each language of the market can be aprecciated")
+    output$MixtPlot <- renderPlot(plot_Mixt)
+
     
     # -------- POPULAR IDEs --------
     output$pythonPlot <- renderPlot({ide_plot_list[["Python"]]})
