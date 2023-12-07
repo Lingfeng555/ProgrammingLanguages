@@ -80,6 +80,6 @@ salariePerExp <- data.frame(
 )
 langMean <- getLangExpSal(language_exp_salarie)
 
-plot_Salary<-ggplot() + geom_line(salariePerExp, mapping = aes(x=salariePerExp$Experience, y=salariePerExp$Salarie))
-ggplot() + geom_text(data=langMean, mapping = aes(x=MeanExp, y=MeanSal, label = Language))
-ggplot() + geom_line(salariePerExp, mapping = aes(x=salariePerExp$Experience, y=salariePerExp$Salarie)) + geom_text(data=langMean, mapping = aes(x=MeanExp, y=MeanSal, label = Language))
+plot_Salary <- ggplot() + geom_line(salariePerExp, mapping = aes(x=Experience, y=Salarie))
+plot_Lang <- ggplot() + geom_text(data=langMean, mapping = aes(x=MeanExp, y=MeanSal, label = Language))
+plot_Mixt <- ggplot() + geom_line(salariePerExp, mapping = aes(x=salariePerExp$Experience, y=salariePerExp$Salarie)) + geom_text(data=langMean, mapping = aes(x=MeanExp, y=MeanSal, label = Language))

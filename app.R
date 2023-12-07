@@ -11,34 +11,26 @@ library(shiny)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
-    # Application title
-    titlePanel("No se bro el titulo y esas cosas hermano"),
-
-    # Sidebar with a slider input for number of bins 
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 0,
-                        max = 50,
-                        value = 1)
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-           plotOutput("distPlot")
-        )
-    )
+  #Lingfeng___________________________________________________
+  textOutput(outputId = "TituloSal"),
+  plotOutput(outputId = "distPlot"),
+  textOutput(outputId = "TituloLang"),
+  plotOutput(outputId = "langPlot"),
+  textOutput(outputId = "MixtSalLang"),
+  plotOutput(outputId = "MixtPlot"),
+  #___________________________________________________________
 )
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        plot_Salary
-    })
+    #Lingfeng___________________________________________________
+    output$TituloSal <- renderText("The mean salary based on the working experience on IT fields")
+    output$distPlot <- renderPlot(plot_Salary)
+    output$TituloLang <- renderText("This is a mean salary for each language depending on the mean salary")
+    output$langPlot <- renderPlot(plot_Lang)
+    output$MixtSalLang <- renderText("This is a plot where is a mixt of the previus two where the value of each language of the market can be aprecciated")
+    output$MixtPlot <- renderPlot(plot_Mixt)
+    #___________________________________________________________
 }
 # Run the application 
 shinyApp(ui = ui, server = server)
