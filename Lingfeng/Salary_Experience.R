@@ -1,7 +1,9 @@
+#Libraries_______________________________________________________________________________________
 library(dplyr)
 library(ggplot2)
 library(stringr)
 
+#Functions_______________________________________________________________________________________
 #To filter data, in ordor to adjust currency exchange that can influence the real mean value because of economics efects, them It is neccessary to select only stable currencys
 getTarget <- function(){ #This is considering the exchange of currencies 1 euro = 1 dollar
   res <- (stackOverFlow$Employment == 'Employed, full-time' & 
@@ -13,6 +15,7 @@ getTarget <- function(){ #This is considering the exchange of currencies 1 euro 
   return(res)
 }
 
+#This function build the based dataframe after all data cleaning process
 builtBasedDataFrame <- function(){
   fullTimeSalaries <- stackOverFlow$CompTotal[getTarget()]
   yearsFullTimeExperience <- stackOverFlow$YearsCodePro[getTarget()]
@@ -36,6 +39,7 @@ builtBasedDataFrame <- function(){
   return(language_exp_salarie)
 }
 
+#This function get mean salarie of each language
 getSalarieByExperience <- function(){
   result <- c()
   for (i in unique(language_exp_salarie$Experience)) {
@@ -44,12 +48,14 @@ getSalarieByExperience <- function(){
   return(result)
 }
 
+#Get a vector of names of all languages
 getLanguages <- function(){
   workingLanguages <- stackOverFlow$LanguageHaveWorkedWith[getTarget()]
   allLanguages <- unique(unlist(str_split(workingLanguages, ";")))
   return(allLanguages)
 }
 
+#Get a dataframe that contains each language with their mean salarie and mean exp
 getLangExpSal <- function(BaseDataFrame){
   allLanguages <- getLanguages()
   meanExperience <- c()
@@ -73,6 +79,7 @@ getLangExpSal <- function(BaseDataFrame){
   return(languageDataFrame)
 }
 
+#Results______________________________________________________________________________________
 language_exp_salarie <- builtBasedDataFrame()
 salariePerExp <- data.frame(
   Experience = unique(language_exp_salarie$Experience),
