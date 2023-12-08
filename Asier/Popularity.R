@@ -43,3 +43,4 @@ otherValues <- values[11:length(values)]
 otherValues <- sum(otherValues)
 
 pie(c(valuesDisplay, otherValues), labels = c(cols2[1:10], "Others"), main = "Patata")
+

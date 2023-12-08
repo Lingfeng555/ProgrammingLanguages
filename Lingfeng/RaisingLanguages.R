@@ -60,3 +60,4 @@ getAllLanguagesPlot <- function(n){ #This is a plot for the most popular 20 lang
   }
   return(result)
 }
+

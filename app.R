@@ -36,28 +36,32 @@ ui <- fluidPage(
     plotOutput(outputId = "MixtPlot"),
   #___________________________________________________________
 
-    # Sidebar with a slider input for number of bins 
     titlePanel("Popular ID for each programming language"),
-        # Show a plot of the generated distribution
-        mainPanel(
-           #plotOutput("distPlot"),
-           tabsetPanel(
-             tabPanel("Python", plotOutput("pythonPlot")),
-             tabPanel("Java", plotOutput("javaPlot")),
-             tabPanel("JavaScript", plotOutput("javaScriptPlot")),
-             tabPanel("R", plotOutput("rPlot")),
-             tabPanel("C", plotOutput("cPlot")),
-             tabPanel("C++", plotOutput("cppPlot")),
-             tabPanel("Assembly", plotOutput("asmPlot")),
-             tabPanel("HTML/CSS", plotOutput("htmlPlot")),
-             tabPanel("PHP", plotOutput("phpPlot")),
-             tabPanel("Kotlin", plotOutput("kotlinPlot")),
-             tabPanel("Fortran", plotOutput("fortranPlot")),
-             tabPanel("Rust", plotOutput("rustPlot")),
-             tabPanel("Swift", plotOutput("swiftPlot")),
-             tabPanel("SQL", plotOutput("sqlPlot"))
-           )
+    mainPanel(
+        tabsetPanel(
+            tabPanel("Python", plotOutput("pythonPlot")),
+            tabPanel("Java", plotOutput("javaPlot")),
+            tabPanel("JavaScript", plotOutput("javaScriptPlot")),
+            tabPanel("R", plotOutput("rPlot")),
+            tabPanel("C", plotOutput("cPlot")),
+            tabPanel("C++", plotOutput("cppPlot")),
+            tabPanel("Assembly", plotOutput("asmPlot")),
+            tabPanel("HTML/CSS", plotOutput("htmlPlot")),
+            tabPanel("PHP", plotOutput("phpPlot")),
+            tabPanel("Kotlin", plotOutput("kotlinPlot")),
+            tabPanel("Fortran", plotOutput("fortranPlot")),
+            tabPanel("Rust", plotOutput("rustPlot")),
+            tabPanel("Swift", plotOutput("swiftPlot")),
+            tabPanel("SQL", plotOutput("sqlPlot"))
         )
+    ),
+    
+    mainPanel(
+        titlePanel("Employment"),
+    
+        mainPanel(plotOutput(outputId = "devTypePlot")),
+        mainPanel(plotOutput(outputId = "edLevelPlot"))
+    )
 )
 
 # Define server logic required to draw a histogram
@@ -90,6 +94,12 @@ server <- function(input, output) {
     output$rustPlot <- renderPlot({ide_plot_list[["Rust"]]})
     output$swiftPlot <- renderPlot({ide_plot_list[["Swift"]]})
     output$sqlPlot <- renderPlot({ide_plot_list[["SQL"]]})
+    
+    # -------- Employment by Dev Type --------
+    output$devTypePlot <- renderPlot(devType_employment_plot, width = 800)
+    
+    # -------- Employment by Education Level --------
+    output$edLevelPlot <- renderPlot(edLevel_employment_plot, width = 800)
 }
 # Run the application 
 shinyApp(ui = ui, server = server)
