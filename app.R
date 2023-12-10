@@ -106,7 +106,7 @@ server <- function(input, output) {
       print(requiredPlot)
     })
     
-    output$LangCompare <- renderPlot(plotCompareLanguage(input$Lang1, input$Lang2))
+    output$LangCompare <-  renderPlot(plotCompareLanguage(input$Lang1, input$Lang2))
   
     # -------- SALARIES --------
   
