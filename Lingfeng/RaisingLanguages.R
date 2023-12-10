@@ -26,12 +26,20 @@ getProgressiveSumVector <- function(vector){ #Get cumulative frequency
   return(result)
 }
 getLanguageDataFrame <- function(name){ #Get a ordered dataframe of a single language
+  if ( !(name %in% ordered_issues$name ) ){
+    language <- data.frame(
+      Dates = ordered_issues$dates[ordered_issues$name == "R"],
+      Issues = getProgressiveSumVector(ordered_issues$count[ordered_issues$name == "R"])
+    )
+    return(language)
+  }
   language <- data.frame(
     Dates = ordered_issues$dates[ordered_issues$name == name],
     Issues = getProgressiveSumVector(ordered_issues$count[ordered_issues$name == name])
   )
   return(language)
 }
+
 getGeomLine <- function(name, lineColor){ #Get a plot line component of a language
   language <- getLanguageDataFrame(name)
   return(geom_line(language, mapping=aes(Dates, Issues, color = name)))

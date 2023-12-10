@@ -20,7 +20,7 @@ getRowFromPopularity <- function(date){
 # Function to create a smaller data frame with the values in the exact date
 selectedValuesInDF <- function(date){
   df <- data.frame(
-    Name = cols,
+    Name = getColsNamesFromPopularity(),
     Values = getRowFromPopularity(date)
   )
   df <- df[order(-df$Values),]
