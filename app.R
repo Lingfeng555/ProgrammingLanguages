@@ -19,6 +19,27 @@ ui <- fluidPage(
   
     # Application title
     titlePanel("A brief summary of programing languages"),
+    # Asier 
+    titlePanel("Popularity of all programing languages every month of the year"),
+    sidebarLayout(
+        sidebarPanel(
+          sliderInput(inputId = "Year",
+                    "Year:",
+                    min = 2004,
+                    max = 2023,
+                    value = 2004),
+          sliderInput(inputId = "Month",
+                    "Month:",
+                    min = 1,
+                    max = 12,
+                    value = 7)
+      ),
+      mainPanel(
+        # Aquí puedes colocar cualquier contenido adicional para el panel principal
+        plotOutput(outputId = "popularityPie"),
+        textOutput(outputId = "plotAclaration")
+      )
+    ),
     #Lingfeng___________________________________________________
     titlePanel("The popularity of each language based on issues on github repos"),
     fluidPage(
@@ -27,6 +48,11 @@ ui <- fluidPage(
       plotOutput(outputId = "LangCompare")
     ),
     
+    #Asier
+    titlePanel("Most required programing languages"),
+    plotOutput(outputId = "requiredPlot"),
+    
+    #Lingfeng
     titlePanel("How is each language in the job market"),
     textOutput(outputId = "TituloSal"),
     plotOutput(outputId = "distPlot"),
@@ -66,7 +92,20 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
+  
     # -------- Popularity --------
+    
+    output$popularityPie <- renderPlot({
+      popularityPie <- createPopularityPie(input$Month, input$Year)
+      print(popularityPie)
+    })
+    output$plotAclaration <- renderText("The  values of the plot are from July 2004 (older) to May 2023(newest)")
+  
+    output$requiredPlot <- renderPlot({
+      requiredPlot <- createMostRequiredPie()
+      print(requiredPlot)
+    })
+    
     output$LangCompare <- renderPlot(plotCompareLanguage(input$Lang1, input$Lang2))
   
     # -------- SALARIES --------
