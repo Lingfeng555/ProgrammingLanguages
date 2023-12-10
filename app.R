@@ -15,12 +15,11 @@ library(RColorBrewer)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-      
-  
-    # Application title
-    titlePanel("A brief summary of programing languages"),
+   # Application title
+    tags$h1("A brief summary of programing languages"),
+    
     # Asier 
-    titlePanel("Popularity of all programing languages every month of the year"),
+    tags$h2("Popularity of all programing languages every month of the year"),
     sidebarLayout(
         sidebarPanel(
           sliderInput(inputId = "Year",
@@ -37,11 +36,13 @@ ui <- fluidPage(
       mainPanel(
         # Aquí puedes colocar cualquier contenido adicional para el panel principal
         plotOutput(outputId = "popularityPie"),
+        actionButton(inputId = "btnPopularity",
+                     label = "Update"),
         textOutput(outputId = "plotAclaration")
       )
     ),
     #Lingfeng___________________________________________________
-    titlePanel("The popularity of each language based on issues on github repos"),
+    tags$h2("The popularity of each language based on issues on github repos"),
     fluidPage(
       textInput(label = "FirstLanguage", inputId = "Lang1", value = "Python"),
       textInput(label = "SecondLanguage", inputId = "Lang2", value = "R"),
@@ -49,11 +50,11 @@ ui <- fluidPage(
     ),
     
     #Asier
-    titlePanel("Most required programing languages"),
+    tags$h2("Most required programing languages"),
     plotOutput(outputId = "requiredPlot"),
     
     #Lingfeng
-    titlePanel("How is each language in the job market"),
+    tags$h2("How is each language in the job market"),
     textOutput(outputId = "TituloSal"),
     plotOutput(outputId = "distPlot"),
     textOutput(outputId = "TituloLang"),
@@ -62,7 +63,7 @@ ui <- fluidPage(
     plotOutput(outputId = "MixtPlot"),
   #___________________________________________________________
 
-    titlePanel("Popular ID for each programming language"),
+    tags$h2("Popular ID for each programming language"),
     mainPanel(
         tabsetPanel(
             tabPanel("Python", plotOutput("pythonPlot")),
@@ -83,7 +84,7 @@ ui <- fluidPage(
     ),
     
     mainPanel(
-        titlePanel("Employment"),
+        tags$h2("Employment"),
     
         mainPanel(plotOutput(outputId = "devTypePlot")),
         mainPanel(plotOutput(outputId = "edLevelPlot"))
@@ -95,9 +96,18 @@ server <- function(input, output) {
   
     # -------- Popularity --------
     
+  observeEvent(input$btnPopularity, {
     output$popularityPie <- renderPlot({
-      popularityPie <- createPopularityPie(input$Month, input$Year)
-      print(popularityPie)
+        popularityPie <- tryCatch({
+          createPopularityPie(input$Month, input$Year)
+          print(popularityPie)
+
+        }, error = function(e) {
+          # Handle the error
+          print("We don't have that data, change the date please")
+          
+        })
+      })
     })
     output$plotAclaration <- renderText("The  values of the plot are from July 2004 (older) to May 2023(newest)")
   
@@ -106,7 +116,7 @@ server <- function(input, output) {
       print(requiredPlot)
     })
     
-    output$LangCompare <- renderPlot(plotCompareLanguage(input$Lang1, input$Lang2))
+    output$LangCompare <-renderPlot(plotCompareLanguage(input$Lang1, input$Lang2))
   
     # -------- SALARIES --------
   
