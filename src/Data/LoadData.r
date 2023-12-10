@@ -14,22 +14,6 @@ popularity <- read.csv(
   na.strings = "NA",
   fill = TRUE
 )
-githubRepos <- read.csv(
-  file = "Datasets/repos.csv",
-  head = TRUE,
-  sep = ",",
-  dec = ".",
-  na.strings = "NA",
-  fill = TRUE
-)
-prs <- read.csv(
-  file = "Datasets/prs.csv",
-  head = TRUE,
-  sep = ",",
-  dec = ".",
-  na.strings = "NA",
-  fill = TRUE
-)
 
 isnothing = function(x) {
   is.null(x) | is.na(x) | is.nan(x)

@@ -19,8 +19,8 @@ getTarget <- function(){ #This is considering the exchange of currencies 1 euro 
 builtBasedDataFrame <- function(){
   fullTimeSalaries <- stackOverFlow$CompTotal[getTarget()]
   yearsFullTimeExperience <- stackOverFlow$YearsCodePro[getTarget()]
-  yearsFullTimeExperience <- replace(yearsFullTimeExperience, yearsFullTimeExperience == "Less than 1 year", "0")
-  yearsFullTimeExperience <- replace(yearsFullTimeExperience, yearsFullTimeExperience == "More than 50 years", "50")
+  yearsFullTimeExperience <- replace(yearsFullTimeExperience, yearsFullTimeExperience == "Less than 1 year", "0") #Considere it as 0 years at working experience
+  yearsFullTimeExperience <- replace(yearsFullTimeExperience, yearsFullTimeExperience == "More than 50 years", "50") #Considere it as 50 years as max
   yearsFullTimeExperience <- strtoi(yearsFullTimeExperience, base=0L)
   workingLanguages <- stackOverFlow$LanguageHaveWorkedWith[getTarget()]
   allLanguages <- unique(unlist(str_split(workingLanguages, ";")))
@@ -31,9 +31,9 @@ builtBasedDataFrame <- function(){
     Salaries = fullTimeSalaries
   )
   
-  language_exp_salarie <- language_exp_salarie[order(language_exp_salarie$Experience, language_exp_salarie$Salaries),] #There is few outlies
-  upperBound <- quantile(language_exp_salarie$Salaries, 0.975) #Value extrated based on the biggest difference
-  lowerBound <- quantile(language_exp_salarie$Salaries, 0.008) #Based on USA min salarie
+  language_exp_salarie <- language_exp_salarie[order(language_exp_salarie$Experience, language_exp_salarie$Salaries),] #There is few outlies so we have so manage them
+  upperBound <- quantile(language_exp_salarie$Salaries, 0.975) #Value extracted based on the biggest difference, probably the respondent has confused putting zeros
+  lowerBound <- quantile(language_exp_salarie$Salaries, 0.008) #Based on USA min salaries
   index_outliers <- which(language_exp_salarie$Salaries<lowerBound | language_exp_salarie$Salaries>upperBound)
   language_exp_salarie <- filter(language_exp_salarie, !row_number() %in% index_outliers)
   return(language_exp_salarie)
@@ -87,6 +87,6 @@ salariePerExp <- data.frame(
 )
 langMean <- getLangExpSal(language_exp_salarie)
 
-plot_Salary <- ggplot() + geom_line(salariePerExp, mapping = aes(x=Experience, y=Salarie))
-plot_Lang <- ggplot() + geom_text(data=langMean, mapping = aes(x=MeanExp, y=MeanSal, label = Language))
-plot_Mixt <- ggplot() + geom_line(salariePerExp, mapping = aes(x=salariePerExp$Experience, y=salariePerExp$Salarie)) + geom_text(data=langMean, mapping = aes(x=MeanExp, y=MeanSal, label = Language))
+plot_Salary <- ggplot() + geom_line(salariePerExp, mapping = aes(x=Experience, y=Salarie)) #line plot of the salarie
+plot_Lang <- ggplot() + geom_text(data=langMean, mapping = aes(x=MeanExp, y=MeanSal, label = Language)) #Dot plot of languages
+plot_Mixt <- ggplot() + geom_line(salariePerExp, mapping = aes(x=salariePerExp$Experience, y=salariePerExp$Salarie)) + geom_text(data=langMean, mapping = aes(x=MeanExp, y=MeanSal, label = Language)) #Mixed plot

@@ -1,14 +1,18 @@
 #Libraries_______________________________________________________________________________________________
+
 library(dplyr)
 library(lubridate)
 library(ggplot2)
 library(RColorBrewer)
 
 #Global variables____________________________________________________________________________________
+
 #Order the raw dataframe for language and date
 ordered_issues <- issues[order(issues$name, issues$year, issues$quarter, issues$count),]
-#Process 2014 first quarter to 2014/03/01
+
+#Process 2014 first quarter to 2014/03/01 and create a new column of it
 dates <- ymd(paste(ordered_issues$year, "/", ordered_issues$quarter * 3, label = T, "/","01", sep = ""))
+
 #Reorder by dates
 ordered_issues <- cbind(ordered_issues, dates) 
 
