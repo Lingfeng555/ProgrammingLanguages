@@ -41,3 +41,4 @@ otherRequiredValues <- sum(ordered_values[13:length(ordered_values)])
 ordered_names <- names[ordered_indices]
 
 pie(c(first_ordered_values, otherRequiredValues), labels = c(ordered_names[1:12], "Others"), main = "Chorizo")
+
