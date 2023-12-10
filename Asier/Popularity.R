@@ -40,7 +40,13 @@ getRowFromOrderedDF <- function(df){
 # Main function to create the plot with all the function
 createPopularityPie <- function(monthValue, year) {
   cols <- getColsNamesFromPopularity()
-  df <- selectedValuesInDF(paste(month(monthValue, label = TRUE, abbr = FALSE, locale = "en"), year))
+  if(year == 2004 & monthValue < 7){
+    df <- selectedValuesInDF("July 2004")
+  } else if(year == 2023 & monthValue > 5){
+    df <- selectedValuesInDF("May 2023")
+  } else{
+    df <- selectedValuesInDF(paste(month(monthValue, label = TRUE, abbr = FALSE, locale = "en"), year))
+  }
   cols2 <- getColsOrdered(df)
   values <- getRowFromOrderedDF(df)
   valuesDisplay <- values[1:10]
