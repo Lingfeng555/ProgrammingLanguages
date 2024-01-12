@@ -17,6 +17,16 @@ dates <- ymd(paste(ordered_issues$year, "/", ordered_issues$quarter * 3, label =
 ordered_issues <- cbind(ordered_issues, dates) 
 
 #Functions_____________________________________________________________________________________________
+capitalize_first_letter <- function(input_string) {
+  first_letter <- substr(input_string, 1, 1)
+  rest_of_string <- substr(input_string, 2, nchar(input_string))
+  
+  capitalized_first_letter <- toupper(first_letter)
+  
+  result <- paste0(capitalized_first_letter, rest_of_string)
+  
+  return(result)
+}
 getProgressiveSumVector <- function(vector){ #Get cumulative frequency
   result  <- c(vector[1])
   for(i in 2:length(vector)){
@@ -44,7 +54,18 @@ getGeomLine <- function(name, lineColor){ #Get a plot line component of a langua
   language <- getLanguageDataFrame(name)
   return(geom_line(language, mapping=aes(Dates, Issues, color = name)))
 }
-plotCompareLanguage <- function(name1, name2){ #Get a plot that compare 2 languages 
+plotCompareLanguage <- function(name1, name2){ #Get a plot that compare 2 languages
+  name1 <- capitalize_first_letter(tolower(name1))
+  name2 <- capitalize_first_letter(tolower(name2))
+  
+  if(name1 == "Javascript"){
+    name1 <- "JavaScript"
+  }
+  
+  if(name2 == "Javascript"){
+    name2 <- "JavaScript"
+  }
+  
   language1 <- getLanguageDataFrame(name1)
   language2 <- getLanguageDataFrame(name2)
   result <- ggplot() + getGeomLine(name1, "red") + getGeomLine(name2, "blue")
@@ -72,4 +93,6 @@ getAllLanguagesPlot <- function(n){ #This is a plot for the most popular 20 lang
   }
   return(result)
 }
+
+
 

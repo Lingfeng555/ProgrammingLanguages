@@ -44,8 +44,8 @@ ui <- fluidPage(
     #Lingfeng___________________________________________________
     tags$h2("The popularity of each language based on issues on github repos"),
     fluidPage(
-      textInput(label = "FirstLanguage (first letter in capital letter)", inputId = "Lang1", value = "Python"),
-      textInput(label = "SecondLanguage (first letter in capital letter)", inputId = "Lang2", value = "R"),
+      textInput(label = "FirstLanguage ", inputId = "Lang1", value = "Python"),
+      textInput(label = "SecondLanguage ", inputId = "Lang2", value = "R"),
       plotOutput(outputId = "LangCompare")
     ),
     
@@ -98,7 +98,7 @@ server <- function(input, output) {
     
   observeEvent(input$btnPopularity, {
     output$popularityPie <- renderPlot({
-        popularityPie <- createPopularityPie(input$Month, input$Year)
+        popularityPie <- isolate(createPopularityPie(input$Month, input$Year))
         print(popularityPie)
         })
     })
